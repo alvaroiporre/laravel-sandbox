@@ -53,4 +53,20 @@ class studentController extends Controller
             'message' => 'Student created succesfully'
         ], 200);
     }
+
+    public function show($id) {
+        $student = Student::find($id);
+        if (!$student) {
+            $data = [
+                'message' => 'Student did not exist',
+                'status' => 404
+            ];
+            return  response()->json($data, 404);
+        }
+        $data = [
+            'student' => $student,
+            'status' => 200
+        ];
+        return response()->json($data, 200);
+    }
 }

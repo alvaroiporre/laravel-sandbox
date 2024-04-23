@@ -6,9 +6,7 @@ use App\Http\Controllers\Api\studentController;
 
 Route::get('/students', [studentController::class, 'index']);
 
-Route::get('/students/{id}', function() {
-    return 'Studens by id';
-});
+Route::get('/students/{id}', [studentController::class, 'show']);
 
 Route::post('/students', [studentController::class, 'store']);
 
