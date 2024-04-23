@@ -69,4 +69,57 @@ class studentController extends Controller
         ];
         return response()->json($data, 200);
     }
+
+    public function delete($id) {
+        $student = Student::find($id);
+        if (!$student) {
+            $data = [
+                'message' => 'Student did not exist',
+                'status' => 404
+            ];
+            return  response()->json($data, 404);
+        }
+        $student->delete();
+        $data = [
+            'message' => 'Student deleted succesfully',
+            'status' => 200
+        ];
+        return response()->json($data, 200);
+    }
+
+    public function update(Request $request, $id) {
+        $student = Student::find($id);
+        if (!$student) {
+            $data = [
+                'message' => 'Student did not exist',
+                'status' => 404
+            ];
+            return  response()->json($data, 404);
+        }
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:student',
+            'phone' => 'required|digits:10'
+        ]);
+        if ( $validator->fails()) {
+            $data = [
+                'message' => 'Error validating data',
+                'errors' => $validator->errors(),
+                'status' => 400
+            ];
+            return response()->json($data, 400);
+        }
+
+        $student->name = $request->name;
+        $student->email = $request->email;
+        $student->phone = $request->phone;
+        $student->save();
+
+        $data = [
+            'message' => 'Student up to date',
+            'student' => $student,
+            'status' => 200
+        ];
+        return response()->json($data, 200);
+    }
 }

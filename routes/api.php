@@ -10,11 +10,7 @@ Route::get('/students/{id}', [studentController::class, 'show']);
 
 Route::post('/students', [studentController::class, 'store']);
 
-Route::put('/students/{id}', function() {
-    return 'Update Student';
-});
+Route::put('/students/{id}', [studentController::class, 'update']);
 
-Route::delete('/students/{id}', function() {
-    return 'Delete student';
-});
+Route::delete('/students/{id}', [studentController::class, 'delete']);
 
